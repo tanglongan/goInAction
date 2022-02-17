@@ -63,7 +63,7 @@ func ReadFile(filepath string) (string, error) {
 }
 
 func main() {
-	content, err := ReadFile("D:\\Code\\goInAction\\ch08\\json_de\\data.json")
+	content, err := ReadFile("D:\\Code\\goInAction\\ch08\\json_unmarshal_1\\data.json")
 	if err != nil {
 		log.Fatal(err)
 	}
