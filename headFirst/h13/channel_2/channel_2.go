@@ -7,14 +7,14 @@ import (
 
 func reportNap(name string, delay int) {
 	for i := 0; i < delay; i++ {
-		fmt.Println(name, "sleeping")
+		fmt.Println(name, "-->sleeping")
 		time.Sleep(1 * time.Second)
 	}
-	fmt.Println(name, "wakes up")
+	fmt.Println(name, "-->wakes up")
 }
 
 func send(myChannel chan string) {
-	reportNap("sending goroutine", 2)
+	reportNap("[sending goroutine]", 2)
 	fmt.Println("***sending value***")
 	myChannel <- "a"
 	fmt.Println("***sending value***")
@@ -24,7 +24,7 @@ func send(myChannel chan string) {
 func main() {
 	myChannel := make(chan string)
 	go send(myChannel)
-	reportNap("receivinng goroutine", 5)
+	reportNap("[receivinng goroutine]", 5)
 	fmt.Println(<-myChannel)
 	fmt.Println(<-myChannel)
 }
