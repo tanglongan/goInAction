@@ -1,7 +1,7 @@
 package main
 
 // goroutine：是同步运行的函数。新的goroutine以一个go语句开始，一个普通的函数调用，前面是关键字“go”
-// channel：是用于goroutine之间发送值的数据结构。
+// channel：是用于goroutine之间发送值的数据结构。每一个channel只携带一种类型的值。通过make函数创建。
 // 默认情况下，在channel上发送一个值会阻塞当前goroutine的执行，直到接收到该值为止。试图接收一个值也会阻塞当前goroutine，直到被发送到那个channel为止。
 import (
 	"fmt"
