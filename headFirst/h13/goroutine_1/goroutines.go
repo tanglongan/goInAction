@@ -5,20 +5,29 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 )
 
-func main() {
-	go responseSize("https://www.baidu.com/")
-	go responseSize("https://www.google.com.hk/")
-	go responseSize("https://www.sogou.com/")
-
-	time.Sleep(5 * time.Second)
-	fmt.Println("main goroutine")
+type Page struct {
+	URL  string
+	Size int
 }
 
-func responseSize(url string) {
-	fmt.Println("getting", url)
+func main() {
+	resultChannel := make(chan Page)
+	urls := []string{"https://www.baidu.com", "https://www.google.com.hk", "https://www.sogou.com"}
+
+	for _, url := range urls {
+		go responseSize(url, resultChannel)
+	}
+
+	for i := 0; i < len(urls); i++ {
+		page := <-resultChannel
+		fmt.Printf("%s: %d\n", page.URL, page.Size)
+	}
+}
+
+func responseSize(url string, channel chan Page) {
+	fmt.Println("GET ", url)
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -30,5 +39,6 @@ func responseSize(url string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(len(body))
+	// 通过channel发送网页结果对象
+	channel <- Page{URL: url, Size: len(body)}
 }
